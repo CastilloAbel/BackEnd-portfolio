@@ -6,6 +6,7 @@ import com.portfolio.BackEnd.Security.Controller.Mensaje;
 import com.portfolio.BackEnd.model.Persona;
 import com.portfolio.BackEnd.service.PersonaService;
 import java.util.List;
+import java.util.Optional;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -32,6 +33,11 @@ public class ControllerPersona {
     public List<Persona> getPersona(){
         return personaService.list();
     }
+    @GetMapping("/traer/perfil")
+    public Optional<Persona> findPersona(){
+        return personaService.getOne((int) 1);
+    }
+
     
     @PreAuthorize("hasRole('ADMIN')")
     @PostMapping("/crear")
@@ -48,46 +54,6 @@ public class ControllerPersona {
     }
     
     
-    @GetMapping("/lista")
-    public ResponseEntity<List<Persona>> list(){
-        List<Persona> list = personaService.list();
-        return new ResponseEntity(list, HttpStatus.OK);
-    }
-    
-    @GetMapping("/detail/{id}")
-    public ResponseEntity<Persona> getById(@PathVariable("id")int id){
-        if(!personaService.existsById(id)){
-            return new ResponseEntity(new Mensaje("No existe el ID"), HttpStatus.BAD_REQUEST);
-        }
-        
-        Persona persona = personaService.getOne(id).get();
-        return new ResponseEntity(persona, HttpStatus.OK);
-    }
-    
-
-    
-    @PutMapping("/update/{id}")
-    public ResponseEntity<?> update(@PathVariable("id") int id, @RequestBody dtoPersona dtopersona){
-        if(!personaService.existsById(id)){
-            return new ResponseEntity(new Mensaje("No existe el ID"), HttpStatus.NOT_FOUND);
-        }
-        if(personaService.existsByNombre(dtopersona.getNombre()) && personaService.getByNombre(dtopersona.getNombre()).get().getId() != id){
-            return new ResponseEntity(new Mensaje("Ese nombre ya existe"), HttpStatus.BAD_REQUEST);
-        }
-        if(StringUtils.isBlank(dtopersona.getNombre())){
-            return new ResponseEntity(new Mensaje("El campo no puede estar vacio"), HttpStatus.BAD_REQUEST);
-        }
-        
-        Persona persona = personaService.getOne(id).get();
-        
-        persona.setNombre(dtopersona.getNombre());
-        persona.setApellido(dtopersona.getApellido());
-        persona.setDescripcion(dtopersona.getDescripcion());
-        persona.setImg(dtopersona.getImg());
-        
-        personaService.save(persona);
-        
-        return new ResponseEntity(new Mensaje("Persona actualizada"), HttpStatus.OK);
-    }
+ 
    
 }

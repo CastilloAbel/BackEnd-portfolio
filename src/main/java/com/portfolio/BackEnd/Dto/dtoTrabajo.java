@@ -11,6 +11,7 @@ import javax.validation.constraints.NotBlank;
  * @author Abel
  */
 public class dtoTrabajo{
+    @NotBlank
     private String nombreE;
     @NotBlank
     private String descripcionE;

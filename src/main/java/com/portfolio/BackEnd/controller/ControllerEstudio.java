@@ -10,6 +10,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,72 +22,30 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping("/educacion")
+@RequestMapping("/estudio")
 @CrossOrigin(origins = "http://localhost:4200")
 public class ControllerEstudio {
     @Autowired
     EstudioService sEducacion;
     
-    @GetMapping("/lista")
-    public ResponseEntity<List<Estudio>> list(){
-        List<Estudio> list = sEducacion.list();
-        return new ResponseEntity(list, HttpStatus.OK);
-    }
-    @GetMapping("/detail/{id}")
-    public ResponseEntity<Estudio> getById(@PathVariable("id")int id){
-        if(!sEducacion.existsById(id)){
-            return new ResponseEntity(new Mensaje("No existe el ID"), HttpStatus.BAD_REQUEST);
-        }
-        
-       Estudio educacion = sEducacion.getOne(id).get();
-        return new ResponseEntity(educacion, HttpStatus.OK);
+    @GetMapping("/traer")
+    public List<Estudio> getEstudio(){
+        return sEducacion.list();
     }
     
-    @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> delete(@PathVariable("id") int id){
-        if(!sEducacion.existsById(id)){
-            return new ResponseEntity(new Mensaje("No existe el ID"), HttpStatus.NOT_FOUND);
-        }
+    @PreAuthorize("hasRole('ADMIN')")
+    @PostMapping("/crear")
+    public String createEstudio(@RequestBody Estudio estudio){
+        sEducacion.save(estudio);
+        return "El estudio fue creado correctamente";
+    }
+    
+    @PreAuthorize("hasRole('ADMIN')")
+    @DeleteMapping("/borrar/{id}")
+    public String deleteEstudio(@PathVariable int id){
         sEducacion.delete(id);
-        return new ResponseEntity(new Mensaje("Educacion eliminada"), HttpStatus.OK);
+        return "El estudio fue eliminado corredctamente";
     }
     
-    @PostMapping("/create")
-    public ResponseEntity<?> create(@RequestBody dtoEstudio dtoeducacion){
-        if(StringUtils.isBlank(dtoeducacion.getNombreE())){
-            return new ResponseEntity(new Mensaje("El nombre es obligatorio"), HttpStatus.BAD_REQUEST);
-        }
-        if(sEducacion.existsByNombreE(dtoeducacion.getNombreE())){
-            return new ResponseEntity(new Mensaje("Ese nombre ya existe"), HttpStatus.BAD_REQUEST);
-        }
-        
-        Estudio educacion = new Estudio(
-                dtoeducacion.getNombreE(), dtoeducacion.getDescripcionE()
-            );
-        sEducacion.save(educacion);
-        return new ResponseEntity(new Mensaje("Educacion creada"), HttpStatus.OK);
-                
-    }
-    
-    @PutMapping("/update/{id}")
-    public ResponseEntity<?> update(@PathVariable("id") int id, @RequestBody dtoEstudio dtoeducacion){
-        if(!sEducacion.existsById(id)){
-            return new ResponseEntity(new Mensaje("No existe el ID"), HttpStatus.NOT_FOUND);
-        }
-        if(sEducacion.existsByNombreE(dtoeducacion.getNombreE()) && sEducacion.getByNmbreE(dtoeducacion.getNombreE()).get().getId() != id){
-            return new ResponseEntity(new Mensaje("Ese nombre ya existe"), HttpStatus.BAD_REQUEST);
-        }
-        if(StringUtils.isBlank(dtoeducacion.getNombreE())){
-            return new ResponseEntity(new Mensaje("El campo no puede estar vacio"), HttpStatus.BAD_REQUEST);
-        }
-        
-        Estudio educacion = sEducacion.getOne(id).get();
-        
-        educacion.setNombreE(dtoeducacion.getNombreE());
-        educacion.setDescripcionE(dtoeducacion.getDescripcionE());
-        
-        sEducacion.save(educacion);
-        
-        return new ResponseEntity(new Mensaje("Educacion actualizada"), HttpStatus.OK);
-    }
+   
 }

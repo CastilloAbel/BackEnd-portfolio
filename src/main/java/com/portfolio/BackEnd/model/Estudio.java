@@ -13,14 +13,46 @@ public class Estudio {
     private int id;
     private String nombreE;
     private String descripcionE;
+    private String institucion;
+    private String fechaDesde;
+    private String fechaHasta;
 
     public Estudio() {
     }
 
-    public Estudio(String nombreE, String descripcionE) {
+    public Estudio(String nombreE, String descripcionE, String institucion, String fechaDesde, String fechaHasta) {
         this.nombreE = nombreE;
         this.descripcionE = descripcionE;
+        this.institucion = institucion;
+        this.fechaDesde = fechaDesde;
+        this.fechaHasta = fechaHasta;
     }
+
+    public String getInstitucion() {
+        return institucion;
+    }
+
+    public void setInstitucion(String institucion) {
+        this.institucion = institucion;
+    }
+
+    public String getFechaDesde() {
+        return fechaDesde;
+    }
+
+    public void setFechaDesde(String fechaDesde) {
+        this.fechaDesde = fechaDesde;
+    }
+
+    public String getFechaHasta() {
+        return fechaHasta;
+    }
+
+    public void setFechaHasta(String fechaHasta) {
+        this.fechaHasta = fechaHasta;
+    }
+
+
 
     public int getId() {
         return id;

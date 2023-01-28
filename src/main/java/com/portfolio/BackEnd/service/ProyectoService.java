@@ -4,33 +4,42 @@ package com.portfolio.BackEnd.service;
 import com.portfolio.BackEnd.model.Proyecto;
 import com.portfolio.BackEnd.repository.ProyectoRepository;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class ProyectoService implements IProyectoService{
+public class ProyectoService{
 
     @Autowired
     public ProyectoRepository proyrepo;
     
-    @Override
-    public List<Proyecto> verProyectos() {
+public List<Proyecto> list() {
         return proyrepo.findAll();
     }
 
-    @Override
-    public void crearProyecto(Proyecto pro) {
-        proyrepo.save(pro);
+    public Optional<Proyecto> getOne(int id) {
+        return proyrepo.findById(id);
     }
 
-    @Override
-    public void eliminarProyecto(int id) {
+    public Optional<Proyecto> getByNombre(String nombreE) {
+        return proyrepo.findByNombre(nombreE);
+    }
+
+    public void save(Proyecto proy) {
+        proyrepo.save(proy);
+    }
+
+    public void delete(int id) {
         proyrepo.deleteById(id);
     }
 
-    @Override
-    public Proyecto buscarProyecto(int id) {
-        return proyrepo.findById(id).orElse(null);
+    public boolean existsById(int id) {
+        return proyrepo.existsById(id);
+    }
+
+    public boolean existsByNombre(String nombreE) {
+        return proyrepo.existsByNombre(nombreE);
     }
     
     

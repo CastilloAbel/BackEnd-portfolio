@@ -14,7 +14,7 @@ public class Proyecto {
     
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    private int id;
     
     private String nombre;
     private String link;
@@ -25,8 +25,7 @@ public class Proyecto {
     public Proyecto() {
     }
 
-    public Proyecto(Long id, String nombre, String link, String img, String descripcion) {
-        this.id = id;
+    public Proyecto(String nombre, String link, String img, String descripcion) {
         this.nombre = nombre;
         this.link = link;
         this.img = img;
