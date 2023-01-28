@@ -24,12 +24,12 @@ public class ProyectoService implements IProyectoService{
     }
 
     @Override
-    public void eliminarProyecto(Long id) {
+    public void eliminarProyecto(int id) {
         proyrepo.deleteById(id);
     }
 
     @Override
-    public Proyecto buscarProyecto(Long id) {
+    public Proyecto buscarProyecto(int id) {
         return proyrepo.findById(id).orElse(null);
     }
     

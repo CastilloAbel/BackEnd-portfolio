@@ -11,7 +11,7 @@ public interface IProyectoService {
     
     public void crearProyecto(Proyecto pro);
     
-    public void eliminarProyecto(Long id);
+    public void eliminarProyecto(int id);
     
-    public Proyecto buscarProyecto(Long id);
+    public Proyecto buscarProyecto(int id);
 }

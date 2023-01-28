@@ -30,7 +30,7 @@ public class ControllerProyecto {
     }
     
     @DeleteMapping("/delete/proyecto/{id}")
-    public void eliminarProyecto(@PathVariable Long id){
+    public void eliminarProyecto(@PathVariable int id){
         proser.eliminarProyecto(id);
     }
 }

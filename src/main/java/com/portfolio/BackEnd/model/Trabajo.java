@@ -1,37 +1,55 @@
 
 package com.portfolio.BackEnd.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.Getter;
-import lombok.Setter;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
-@Getter @Setter
 @Entity
 public class Trabajo {
-    
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
+    private String nombreE;
+    private String descripcionE;
     
-    private String nombreTrabajo;
-    private String fechaDesde;
-    private String fechaHasta;
-    private String nombreEmpresa;
+    //Constructores
 
     public Trabajo() {
     }
 
-    public Trabajo(Long id, String nombreTrabajo, String fechaDesde, String fechaHasta, String nombreEmpresa) {
-        this.id = id;
-        this.nombreTrabajo = nombreTrabajo;
-        this.fechaDesde = fechaDesde;
-        this.fechaHasta = fechaHasta;
-        this.nombreEmpresa = nombreEmpresa;
+    public Trabajo(String nombreE, String descripcionE) {
+        this.nombreE = nombreE;
+        this.descripcionE = descripcionE;
     }
     
-    
+    //Getters and setters
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getNombreE() {
+        return nombreE;
+    }
+
+    public void setNombreE(String nombreE) {
+        this.nombreE = nombreE;
+    }
+
+    public String getDescripcionE() {
+        return descripcionE;
+    }
+
+    public void setDescripcionE(String descripcionE) {
+        this.descripcionE = descripcionE;
+    }
     
 }
+
+

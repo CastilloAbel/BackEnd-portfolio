@@ -1,36 +1,46 @@
-
 package com.portfolio.BackEnd.service;
 
 import com.portfolio.BackEnd.model.Estudio;
 import com.portfolio.BackEnd.repository.EstudioRepository;
 import java.util.List;
+import java.util.Optional;
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class EstudioService implements IEstudioService{
-    
+@Transactional
+public class EstudioService{
+
     @Autowired
     public EstudioRepository estrepo;
 
-    @Override
-    public List<Estudio> verEstudios() {
+    public List<Estudio> list() {
         return estrepo.findAll();
     }
 
-    @Override
-    public void crearEstudio(Estudio est) {
-        estrepo.save(est);
+    public Optional<Estudio> getOne(int id) {
+        return estrepo.findById(id);
     }
 
-    @Override
-    public void eliminarEstudio(Long id) {
+    public Optional<Estudio> getByNmbreE(String nombreE) {
+        return estrepo.findByNombreE(nombreE);
+    }
+
+    public void save(Estudio educacion) {
+        estrepo.save(educacion);
+    }
+
+    public void delete(int id) {
         estrepo.deleteById(id);
     }
 
-    @Override
-    public Estudio buscarEstudio(Long id) {
-        return estrepo.findById(id).orElse(null);
+    public boolean existsById(int id) {
+        return estrepo.existsById(id);
     }
-    
+
+    public boolean existsByNombreE(String nombreE) {
+        return estrepo.existsByNombreE(nombreE);
+    }
+
 }

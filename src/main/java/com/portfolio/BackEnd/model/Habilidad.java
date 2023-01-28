@@ -1,33 +1,51 @@
 
 package com.portfolio.BackEnd.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.Getter;
-import lombok.Setter;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
-@Setter @Getter
 @Entity
 public class Habilidad {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Long id;
-    
-    private String tipoHabilidad;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private int id;
     private String nombre;
-    private int nivelHabilidad;
+    private int porcentaje;
 
     public Habilidad() {
     }
 
-    public Habilidad(Long id, String tipoHabilidad, String nombre, int nivelHabilidad) {
-        this.id = id;
-        this.tipoHabilidad = tipoHabilidad;
+    public Habilidad(String nombre, int porcentaje) {
         this.nombre = nombre;
-        this.nivelHabilidad = nivelHabilidad;
+        this.porcentaje = porcentaje;
     }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
+    }
+
+    public int getPorcentaje() {
+        return porcentaje;
+    }
+
+    public void setPorcentaje(int porcentaje) {
+        this.porcentaje = porcentaje;
+    }
+
     
     
     

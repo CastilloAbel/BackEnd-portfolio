@@ -4,33 +4,43 @@ package com.portfolio.BackEnd.service;
 import com.portfolio.BackEnd.model.Habilidad;
 import com.portfolio.BackEnd.repository.HabilidadRepository;
 import java.util.List;
+import java.util.Optional;
+import javax.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-public class HabilidadService implements IHabilidadService{
+@Transactional
+public class HabilidadService{
 
     @Autowired
     public HabilidadRepository habrepo;
     
-    @Override
-    public List<Habilidad> verHabilidades() {
+    public List<Habilidad> list(){
         return habrepo.findAll();
     }
-
-    @Override
-    public void crearHabilidad(Habilidad hab) {
-        habrepo.save(hab);
-    }
-
-    @Override
-    public void eliminarHabilidad(Long id) {
-        habrepo.deleteById(id);
-    }
-
-    @Override
-    public Habilidad buscarHabilidad(Long id) {
-        return habrepo.findById(id).orElse(null);
+    
+    public Optional<Habilidad> getOne(int id){
+        return habrepo.findById(id);
     }
     
+    public Optional<Habilidad> getByNombre(String nombre){
+        return habrepo.findByNombre(nombre);
+    }
+    
+    public void save(Habilidad skill){
+        habrepo.save(skill);
+    }
+    
+    public void delete(int id){
+        habrepo.deleteById(id);
+    }
+    
+    public boolean existsById(int id){
+        return habrepo.existsById(id);
+    }
+    
+    public boolean existsByNombre(String nombre){
+        return habrepo.existsByNombre(nombre);
+    }
 }
