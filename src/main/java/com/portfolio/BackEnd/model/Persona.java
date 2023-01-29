@@ -23,8 +23,17 @@ public class Persona {
     private String apellido;
     
     @NotNull
-    private String descripcion;
+    private String descripcion1;
+    @NotNull
+    private String descripcion2;
+    @NotNull
+    private String descripcion3;
+    @NotNull
+    private String descripcion4;
+    @NotNull
+    private String descripcion5;
     
+    private String puesto;
     private String img;
     private String mail;
     private String telefono;
@@ -34,10 +43,15 @@ public class Persona {
     public Persona() {
     }
 
-    public Persona(String nombre, String apellido, String descripcion, String img, String mail, String telefono, String linkedin, String github, String ubicacion) {
+    public Persona(String nombre, String apellido, String descripcion1,String descripcion2,String descripcion3,String descripcion4,String descripcion5,String puesto, String img, String mail, String telefono, String linkedin, String github, String ubicacion) {
         this.nombre = nombre;
         this.apellido = apellido;
-        this.descripcion = descripcion;
+        this.descripcion1 = descripcion1;
+        this.descripcion2 = descripcion2;
+        this.descripcion3 = descripcion3;
+        this.descripcion4 = descripcion4;
+        this.descripcion5 = descripcion5;
+        this.puesto = puesto;
         this.img = img;
         this.mail = mail;
         this.telefono = telefono;
@@ -45,6 +59,55 @@ public class Persona {
         this.github = github;
         this.ubicacion = ubicacion;
     }
+
+    public String getDescripcion1() {
+        return descripcion1;
+    }
+
+    public void setDescripcion1(String descripcion1) {
+        this.descripcion1 = descripcion1;
+    }
+
+    public String getPuesto() {
+        return puesto;
+    }
+
+    public void setPuesto(String puesto) {
+        this.puesto = puesto;
+    }
+
+    public String getDescripcion2() {
+        return descripcion2;
+    }
+
+    public void setDescripcion2(String descripcion2) {
+        this.descripcion2 = descripcion2;
+    }
+
+    public String getDescripcion3() {
+        return descripcion3;
+    }
+
+    public void setDescripcion3(String descripcion3) {
+        this.descripcion3 = descripcion3;
+    }
+
+    public String getDescripcion4() {
+        return descripcion4;
+    }
+
+    public void setDescripcion4(String descripcion4) {
+        this.descripcion4 = descripcion4;
+    }
+
+    public String getDescripcion5() {
+        return descripcion5;
+    }
+
+    public void setDescripcion5(String descripcion5) {
+        this.descripcion5 = descripcion5;
+    }
+    
 
     public int getId() {
         return id;
@@ -70,13 +133,6 @@ public class Persona {
         this.apellido = apellido;
     }
 
-    public String getDescripcion() {
-        return descripcion;
-    }
-
-    public void setDescripcion(String descripcion) {
-        this.descripcion = descripcion;
-    }
 
     public String getImg() {
         return img;
