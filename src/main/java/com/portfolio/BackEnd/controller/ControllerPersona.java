@@ -54,6 +54,37 @@ public class ControllerPersona {
     }
     
     
- 
-   
+     @GetMapping("/detail/{id}")
+    public ResponseEntity<Persona> getById(@PathVariable("id") int id){
+        if(!personaService.existsById(id))
+            return new ResponseEntity(new Mensaje("no existe"), HttpStatus.NOT_FOUND);
+        Persona per = personaService.getOne(id).get();
+        return new ResponseEntity(per, HttpStatus.OK);
+    }
+       @PutMapping("/update/{id}")
+    public ResponseEntity<?> update(@PathVariable("id") int id, @RequestBody dtoPersona dtoper){
+        //Validamos si existe el ID
+        if(!personaService.existsById(id))
+            return new ResponseEntity(new Mensaje("El ID no existe"), HttpStatus.BAD_REQUEST);
+
+        if(StringUtils.isBlank(dtoper.getNombre()))
+            return new ResponseEntity(new Mensaje("El nombre es obligatorio"), HttpStatus.BAD_REQUEST);
+        
+        Persona per = personaService.getOne(id).get();
+        per.setNombre(dtoper.getNombre());
+        per.setApellido((dtoper.getApellido()));
+        per.setDescripcion((dtoper.getDescripcion()));
+        per.setPuesto((dtoper.getPuesto()));
+        per.setImg((dtoper.getImg()));
+        per.setMail((dtoper.getMail()));
+        per.setTelefono((dtoper.getTelefono()));
+        per.setLinkedin((dtoper.getLinkedin()));
+        per.setGithub((dtoper.getGithub()));
+        per.setUbicacion((dtoper.getUbicacion()));
+
+        
+        personaService.save(per);
+        return new ResponseEntity(new Mensaje("Persona actualizada"), HttpStatus.OK);
+             
+    }
 }

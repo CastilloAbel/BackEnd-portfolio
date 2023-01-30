@@ -47,6 +47,66 @@ public class ControllerTrabajo {
         return "El trabajo fue eliminado corredctamente";
     }
     
+    @GetMapping("/lista")
+    public ResponseEntity<List<Trabajo>> list(){
     
+        List<Trabajo> list = sExperiencia.list();
+                return new ResponseEntity(list, HttpStatus.OK);
+    }
+    
+    @GetMapping("/detail/{id}")
+    public ResponseEntity<Trabajo> getById(@PathVariable("id") int id){
+        if(!sExperiencia.existsById(id))
+            return new ResponseEntity(new Mensaje("no existe"), HttpStatus.NOT_FOUND);
+        Trabajo experiencia = sExperiencia.getOne(id).get();
+        return new ResponseEntity(experiencia, HttpStatus.OK);
+    }
+    
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> delete(@PathVariable("id") int id) {
+        if (!sExperiencia.existsById(id)) {
+            return new ResponseEntity(new Mensaje("no existe"), HttpStatus.NOT_FOUND);
+        }
+        sExperiencia.delete(id);
+        return new ResponseEntity(new Mensaje("producto eliminado"), HttpStatus.OK);
+    }
+
+    
+    @PostMapping("/create")
+    public ResponseEntity<?> create(@RequestBody dtoTrabajo dtoexp){      
+        if(StringUtils.isBlank(dtoexp.getNombreE()))
+            return new ResponseEntity(new Mensaje("El nombre es obligatorio"), HttpStatus.BAD_REQUEST);
+        if(sExperiencia.existsByNombreE(dtoexp.getNombreE()))
+            return new ResponseEntity(new Mensaje("Esa experiencia existe"), HttpStatus.BAD_REQUEST);
+        
+        Trabajo experiencia = new Trabajo(dtoexp.getNombreE(), dtoexp.getDescripcionE(), dtoexp.getInstitucion(), dtoexp.getFechaDesde(), dtoexp.getFechaHasta());
+        sExperiencia.save(experiencia);
+        
+        return new ResponseEntity(new Mensaje("Experiencia agregada"), HttpStatus.OK);
+    }
+    
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> update(@PathVariable("id") int id, @RequestBody dtoTrabajo dtoexp){
+        //Validamos si existe el ID
+        if(!sExperiencia.existsById(id))
+            return new ResponseEntity(new Mensaje("El ID no existe"), HttpStatus.BAD_REQUEST);
+        //Compara nombre de experiencias
+       // if(sExperiencia.existsByNombreE(dtoexp.getNombreE()) && sExperiencia.getByNombreE(dtoexp.getNombreE()).get().getId() != id)
+          //  return new ResponseEntity(new Mensaje("Esa experiencia ya existe"), HttpStatus.BAD_REQUEST);
+        //No puede estar vacio
+        if(StringUtils.isBlank(dtoexp.getNombreE()))
+            return new ResponseEntity(new Mensaje("El nombre es obligatorio"), HttpStatus.BAD_REQUEST);
+        
+        Trabajo experiencia = sExperiencia.getOne(id).get();
+        experiencia.setNombreE(dtoexp.getNombreE());
+        experiencia.setDescripcionE((dtoexp.getDescripcionE()));
+        experiencia.setInstitucion((dtoexp.getInstitucion()));
+        experiencia.setFechaDesde((dtoexp.getFechaDesde()));
+        experiencia.setFechaHasta((dtoexp.getFechaHasta()));
+        
+        sExperiencia.save(experiencia);
+        return new ResponseEntity(new Mensaje("Experiencia actualizada"), HttpStatus.OK);
+             
+    }
 
 }

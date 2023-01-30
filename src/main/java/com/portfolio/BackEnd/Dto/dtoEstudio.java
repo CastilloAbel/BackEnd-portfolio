@@ -15,14 +15,49 @@ public class dtoEstudio {
     private String nombreE;
     @NotBlank
     private String descripcionE;
+    @NotBlank
+    private String institucion;
+    @NotBlank
+    private String fechaDesde;
+    @NotBlank
+    private String fechaHasta;
 
     public dtoEstudio() {
     }
 
-    public dtoEstudio(String nombreE, String descripcionE) {
+    public dtoEstudio(String nombreE, String descripcionE, String institucion, String fechaDesde, String fechaHasta) {
         this.nombreE = nombreE;
         this.descripcionE = descripcionE;
+        this.institucion = institucion;
+        this.fechaDesde = fechaDesde;
+        this.fechaHasta = fechaHasta;
     }
+
+    public String getInstitucion() {
+        return institucion;
+    }
+
+    public void setInstitucion(String institucion) {
+        this.institucion = institucion;
+    }
+
+    public String getFechaDesde() {
+        return fechaDesde;
+    }
+
+    public void setFechaDesde(String fechaDesde) {
+        this.fechaDesde = fechaDesde;
+    }
+
+    public String getFechaHasta() {
+        return fechaHasta;
+    }
+
+    public void setFechaHasta(String fechaHasta) {
+        this.fechaHasta = fechaHasta;
+    }
+
+
 
     public String getNombreE() {
         return nombreE;

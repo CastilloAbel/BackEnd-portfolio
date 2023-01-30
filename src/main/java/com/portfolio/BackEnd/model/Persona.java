@@ -1,56 +1,54 @@
 
 package com.portfolio.BackEnd.model;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
+
 
 @Entity
 public class Persona {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column
     private int id;
     
     @NotNull
-    @Size(min = 1, max = 50, message = "no cumple con la longitud")
+    @Column
     private String nombre;
     
     @NotNull
-    @Size(min = 1, max = 50, message = "no cumple con la longitud")
+    @Column
     private String apellido;
     
     @NotNull
-    private String descripcion1;
-    @NotNull
-    private String descripcion2;
-    @NotNull
-    private String descripcion3;
-    @NotNull
-    private String descripcion4;
-    @NotNull
-    private String descripcion5;
-    
+    @Column(columnDefinition = "varchar(4096)")
+    private String descripcion;
+    @Column
     private String puesto;
+    @Column
+    
     private String img;
+    @Column
     private String mail;
+    @Column
     private String telefono;
+    @Column
     private String linkedin;
+    @Column
     private String github;
+    @Column
     private String ubicacion;
     public Persona() {
     }
 
-    public Persona(String nombre, String apellido, String descripcion1,String descripcion2,String descripcion3,String descripcion4,String descripcion5,String puesto, String img, String mail, String telefono, String linkedin, String github, String ubicacion) {
+    public Persona(String nombre, String apellido, String descripcion,String puesto, String img, String mail, String telefono, String linkedin, String github, String ubicacion) {
         this.nombre = nombre;
         this.apellido = apellido;
-        this.descripcion1 = descripcion1;
-        this.descripcion2 = descripcion2;
-        this.descripcion3 = descripcion3;
-        this.descripcion4 = descripcion4;
-        this.descripcion5 = descripcion5;
+        this.descripcion = descripcion;
         this.puesto = puesto;
         this.img = img;
         this.mail = mail;
@@ -60,13 +58,15 @@ public class Persona {
         this.ubicacion = ubicacion;
     }
 
-    public String getDescripcion1() {
-        return descripcion1;
+    public String getDescripcion() {
+        return descripcion;
     }
 
-    public void setDescripcion1(String descripcion1) {
-        this.descripcion1 = descripcion1;
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
     }
+
+   
 
     public String getPuesto() {
         return puesto;
@@ -74,38 +74,6 @@ public class Persona {
 
     public void setPuesto(String puesto) {
         this.puesto = puesto;
-    }
-
-    public String getDescripcion2() {
-        return descripcion2;
-    }
-
-    public void setDescripcion2(String descripcion2) {
-        this.descripcion2 = descripcion2;
-    }
-
-    public String getDescripcion3() {
-        return descripcion3;
-    }
-
-    public void setDescripcion3(String descripcion3) {
-        this.descripcion3 = descripcion3;
-    }
-
-    public String getDescripcion4() {
-        return descripcion4;
-    }
-
-    public void setDescripcion4(String descripcion4) {
-        this.descripcion4 = descripcion4;
-    }
-
-    public String getDescripcion5() {
-        return descripcion5;
-    }
-
-    public void setDescripcion5(String descripcion5) {
-        this.descripcion5 = descripcion5;
     }
     
 

@@ -49,5 +49,66 @@ public class ControllerProyecto {
         return "El proyecto fue eliminado corredctamente";
     }
     
+    
+    
+    
+    @GetMapping("/lista")
+    public ResponseEntity<List<Proyecto>> list(){
+    
+        List<Proyecto> list = proser.list();
+                return new ResponseEntity(list, HttpStatus.OK);
+    }
+    
+    @GetMapping("/detail/{id}")
+    public ResponseEntity<Proyecto> getById(@PathVariable("id") int id){
+        if(!proser.existsById(id))
+            return new ResponseEntity(new Mensaje("no existe"), HttpStatus.NOT_FOUND);
+        Proyecto pro = proser.getOne(id).get();
+        return new ResponseEntity(pro, HttpStatus.OK);
+    }
+    
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> delete(@PathVariable("id") int id) {
+        if (!proser.existsById(id)) {
+            return new ResponseEntity(new Mensaje("no existe"), HttpStatus.NOT_FOUND);
+        }
+        proser.delete(id);
+        return new ResponseEntity(new Mensaje("Proyecto eliminado"), HttpStatus.OK);
+    }
+
+    
+    @PostMapping("/create")
+    public ResponseEntity<?> create(@RequestBody dtoProyecto dtopro){      
+        if(StringUtils.isBlank(dtopro.getNombre()))
+            return new ResponseEntity(new Mensaje("El nombre es obligatorio"), HttpStatus.BAD_REQUEST);
+        if(proser.existsByNombre(dtopro.getNombre()))
+            return new ResponseEntity(new Mensaje("Ese proyecto no existe"), HttpStatus.BAD_REQUEST);
+        
+        Proyecto pro = new Proyecto(dtopro.getNombre(), dtopro.getLink(), dtopro.getImg(), dtopro.getDescripcion());
+        proser.save(pro);
+        
+        return new ResponseEntity(new Mensaje("Proyecto agregado"), HttpStatus.OK);
+    }
+    
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> update(@PathVariable("id") int id, @RequestBody dtoProyecto dtopro){
+        //Validamos si existe el ID
+        if(!proser.existsById(id))
+            return new ResponseEntity(new Mensaje("El ID no existe"), HttpStatus.BAD_REQUEST);
+
+        if(StringUtils.isBlank(dtopro.getNombre()))
+            return new ResponseEntity(new Mensaje("El nombre es obligatorio"), HttpStatus.BAD_REQUEST);
+        
+        Proyecto pro = proser.getOne(id).get();
+        pro.setNombre(dtopro.getNombre());
+        pro.setDescripcion((dtopro.getDescripcion()));
+        pro.setImg((dtopro.getImg()));
+        pro.setLink((dtopro.getLink()));
+
+        
+        proser.save(pro);
+        return new ResponseEntity(new Mensaje("Proyecto actualizado"), HttpStatus.OK);
+             
+    }
 
 }

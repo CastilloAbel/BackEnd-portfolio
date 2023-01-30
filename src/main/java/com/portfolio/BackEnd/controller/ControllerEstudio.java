@@ -47,5 +47,62 @@ public class ControllerEstudio {
         return "El estudio fue eliminado corredctamente";
     }
     
-   
+       @GetMapping("/lista")
+    public ResponseEntity<List<Estudio>> list(){
+    
+        List<Estudio> list = sEducacion.list();
+                return new ResponseEntity(list, HttpStatus.OK);
+    }
+    
+    @GetMapping("/detail/{id}")
+    public ResponseEntity<Estudio> getById(@PathVariable("id") int id){
+        if(!sEducacion.existsById(id))
+            return new ResponseEntity(new Mensaje("no existe"), HttpStatus.NOT_FOUND);
+        Estudio est = sEducacion.getOne(id).get();
+        return new ResponseEntity(est, HttpStatus.OK);
+    }
+    
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> delete(@PathVariable("id") int id) {
+        if (!sEducacion.existsById(id)) {
+            return new ResponseEntity(new Mensaje("no existe"), HttpStatus.NOT_FOUND);
+        }
+        sEducacion.delete(id);
+        return new ResponseEntity(new Mensaje("Estudio eliminado"), HttpStatus.OK);
+    }
+
+    
+    @PostMapping("/create")
+    public ResponseEntity<?> create(@RequestBody dtoEstudio dtoest){      
+        if(StringUtils.isBlank(dtoest.getNombreE()))
+            return new ResponseEntity(new Mensaje("El nombre es obligatorio"), HttpStatus.BAD_REQUEST);
+        if(sEducacion.existsByNombreE(dtoest.getNombreE()))
+            return new ResponseEntity(new Mensaje("Ese Estudio ya existe"), HttpStatus.BAD_REQUEST);
+        
+        Estudio est = new Estudio(dtoest.getNombreE(), dtoest.getDescripcionE(), dtoest.getInstitucion(), dtoest.getFechaDesde(), dtoest.getFechaHasta());
+        sEducacion.save(est);
+        
+        return new ResponseEntity(new Mensaje("Estudio agregado"), HttpStatus.OK);
+    }
+    
+    @PutMapping("/update/{id}")
+    public ResponseEntity<?> update(@PathVariable("id") int id, @RequestBody dtoEstudio dtoest){
+        //Validamos si existe el ID
+        if(!sEducacion.existsById(id))
+            return new ResponseEntity(new Mensaje("El ID no existe"), HttpStatus.BAD_REQUEST);
+
+        if(StringUtils.isBlank(dtoest.getNombreE()))
+            return new ResponseEntity(new Mensaje("El nombre es obligatorio"), HttpStatus.BAD_REQUEST);
+        
+        Estudio est = sEducacion.getOne(id).get();
+        est.setNombreE(dtoest.getNombreE());
+        est.setDescripcionE((dtoest.getDescripcionE()));
+        est.setInstitucion((dtoest.getInstitucion()));
+        est.setFechaDesde((dtoest.getFechaDesde()));
+        est.setFechaHasta((dtoest.getFechaHasta()));
+        
+        sEducacion.save(est);
+        return new ResponseEntity(new Mensaje("Estudio actualizado"), HttpStatus.OK);
+             
+    }
 }
